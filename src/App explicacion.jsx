@@ -2,12 +2,11 @@ import { useState } from 'react'
 import confetti from 'canvas-confetti'
 import './App.css'
 import { TURNS } from './constants.js'
-import {checkWinner , checkEndGame} from './logic/board.js'
+import { checkWinner, checkEndGame } from './logic/board.js'
 import { WinnerModal } from './components/WinnerModal.jsx'
 import { Board } from './components/Board.jsx'
 import { TurnIndicator } from './components/TurnIndicator.jsx'
 import { EMPTY_BOARD } from './constants.js'
-import { useGame } from './hooks/useGame.js'
 //1. CONSTANTES TURNS
 
 
@@ -42,7 +41,7 @@ function App() {
   //Cada vez user haga click en uno y actualizamos tablero, voy a ver si ha ganado o no ha ganado, entonces como sabemos
   //para hacer click que actualice el tablero, como sabemos el turno del jugador??? Con otro estado, saber si es turno X o O
   const [turn, setTurn] = useState(TURNS.X)
-  
+
   //9. Ahora vamos a verificar el ganador, saber cuando hemos ganado parar el juego (decir oye paramos el juego)
   const [winner, setWinner] = useState(null) // null es que no hay ganador, false es empate, y si es X u O es que hay un ganador, igual podria ser con un enum
   //Muchas maneras para ver si hay un ganador, una de ellas es crear una funcion que recorra el tablero y ver si hay 3 fichas en linea, otra manera es crear un array con las combinaciones ganadoras, y luego verificar si alguna de esas combinaciones esta presente en el tablero, otra manera es usar una libreria como tic-tac-toe-winner, que nos permite verificar si hay un ganador de manera sencilla
@@ -55,7 +54,7 @@ function App() {
   const updateBoard = (index) => {
     //Si el tablero en esa posicion ya tiene un valor, no hacemos nada, para evitar que se sobreescriba la 
     // ficha del jugador
-    if(board[index]  || winner) return
+    if (board[index] || winner) return
 
     //Actualizamos el tablero, para eso usamos la funcion setBoard, que nos permite actualizar el estado del tablero, le pasamos una copia del tablero actualizada con la ficha del jugador en la posicion correspondiente
     //Lo que hace esto es crear una copia del tablero actual, luego actualiza la posicion del tablero 
@@ -74,7 +73,7 @@ function App() {
     //  una copia del valor que tiene, modificar esa copia y luego actualizar el estado con la nueva copia, 
     // esto es importante para que React se de cuenta que el estado ha cambiado y vuelva a renderizar 
     // el componente
-    
+
     newBoard[index] = turn //x u o
     setBoard(newBoard)
 
@@ -83,7 +82,7 @@ function App() {
     setTurn(newTurn)
     //10. revisar si hay ganador
     const newWinner = checkWinner(newBoard)
-    if(newWinner) {
+    if (newWinner) {
       //!!!Actualizacion de estados en react son asincronos, entonces si queremos mostrar el ganador en un alert, debemos hacerlo antes de actualizar el estado del ganador, para que el alert muestre el ganador correcto, y luego actualizar el estado del ganador para que se muestre en la interfaz
       // alert(`El ganador es ${newWinner}`)
       // setWinner(newWinner)
@@ -112,19 +111,19 @@ function App() {
 
 
 
-    //useState que al cambiar vuelve a renderizar componente para reflejar los cambios
-    //useEffect hook que permite ejecutar codigo arbitrario cuando componente se monta en el dom, y cada vez que cambian las dependencias que nosotros le digamos 
-    //useEffect se usa en el cuerpo del comonente
-    useEffect(codeToExecute, listOfDependencies) //ASI ES EL CONTRATO (funcion, array de dependencias)
-    useEffect(() => {
-      //Como minimo se ejecutara una vez cuando el componente se monta en el DOM, y luego cada vez que cambien las dependencias que nosotros le digamos, en este caso no le estamos pasando ninguna dependencia, entonces solo se ejecutara una vez cuando el componente se monta en el DOM
-      console.log('El componente se ha montado en el DOM')
-    }, [])  //Cuando [] cambie, se ejecuta la funcion, si [] es null, no se ejecuta, es opcional, si no le pasamos nada, se ejecuta cada vez que el componente se renderiza, si le pasamos un array vacio, se ejecuta solo una vez cuando el componente se monta en el DOM, si le pasamos un array con dependencias, se ejecuta cada vez que cambian esas dependencias
-  
-    //Aca es cuando se ejecuta cada vez que el componente se renderiza
-    // useEffect(() => {
-    //   console.log('Codigo a ejecutar')
-    // })  
+  //useState que al cambiar vuelve a renderizar componente para reflejar los cambios
+  //useEffect hook que permite ejecutar codigo arbitrario cuando componente se monta en el dom, y cada vez que cambian las dependencias que nosotros le digamos 
+  //useEffect se usa en el cuerpo del comonente
+  // useEffect(codeToExecute, listOfDependencies) //ASI ES EL CONTRATO (funcion, array de dependencias)
+  // useEffect(() => {
+  //   //Como minimo se ejecutara una vez cuando el componente se monta en el DOM, y luego cada vez que cambien las dependencias que nosotros le digamos, en este caso no le estamos pasando ninguna dependencia, entonces solo se ejecutara una vez cuando el componente se monta en el DOM
+  //   console.log('El componente se ha montado en el DOM')
+  // }, [])  //Cuando [] cambie, se ejecuta la funcion, si [] es null, no se ejecuta, es opcional, si no le pasamos nada, se ejecuta cada vez que el componente se renderiza, si le pasamos un array vacio, se ejecuta solo una vez cuando el componente se monta en el DOM, si le pasamos un array con dependencias, se ejecuta cada vez que cambian esas dependencias
+
+  //Aca es cuando se ejecuta cada vez que el componente se renderiza
+  // useEffect(() => {
+  //   console.log('Codigo a ejecutar')
+  // })  
 
 
   // useEffect(() => {
@@ -133,59 +132,59 @@ function App() {
   // useEffect(() => {
   //   console.log('Codigo a ejecutar')
   // }) // cada vez que se renderiza el componente, se ejecuta el codigo, cuidado con esto porque puede causar problemas de rendimiento si el codigo es pesado, ya que se ejecuta cada vez que se renderiza el componente
-  
+
 
   // useEffect(() => {
   //   console.log('El ganador es: ', winner)
   // }, [winner]) //dependencia, cada vez que board cambie, se ejecutara el codigo dentro del useEffect
   //ejemplo tenemos un winner y queremos enviar a bdd o a una api, cada vez que winner cambie, se ejecutara el codigo dentro del useEffect, y podemos enviar el ganador a la bdd o a la api
 
-    return (
+  return (
     //1. Renderizamos el tablero
     <main className="board">
       <h1>Tic tac toe</h1>
       <button onClick={resetGame}>Reset game</button>
       {/* <section className="game"> */}
-        { 
-          //Como no me interesa el valor del tablero, sino el indice, puedo usar un guion bajo para indicar que no me interesa ese valor, y luego usar el index para saber en que posicion del tablero estoy
-          //Array primer parametro es el valor del tablero (elemento), el segundo parametro es el indice del tablero, el tercer parametro es el array completo del tablero
-          
-          //3. Renderizamos cada casilla del tablero, para eso usamos el componente Square, le pasamos el index del tablero como prop, y el valor de la casilla como children, que es lo que va a tener dentro del cuadradito (x o o)
-            //Lista elementos se renderiza .map, porque devuelve un array de elementos, en este caso cada casilla del tablero,
-            //  el index es el indice del tablero, que se utiliza para saber en que posicion del tablero se encuentra 
-            // la ficha del jugador, y el valor del tablero es el valor de la casilla (x o o), pero como no me interesa
-            //  el valor del tablero, puedo usar un guion bajo para indicar que no me interesa ese valor
-          // board.map((_,index) => {
-          //   return (<div key={index} className="cell">
-          //     {/* //Para renderizar lista de elementos, necesitamos una key (indentificador unico) para cada elemento, 
-          //     en este caso el index del tablero es un buen identificador unico, ya que cada casilla del tablero tiene 
-          //     un indice unico */}
-          //     <Square key={index}
-          //       index={index} /*7. vamos a pasarle una funcion al componente,
-          //        pasamos la funcion no la ejecucion, para ejecutarlo cuando queramos  */ updateBoard={updateBoard}>
-          //       {board[index]}
-          //     </Square>        
-          //   </div>
-          // )
-          // })
+      {
+        //Como no me interesa el valor del tablero, sino el indice, puedo usar un guion bajo para indicar que no me interesa ese valor, y luego usar el index para saber en que posicion del tablero estoy
+        //Array primer parametro es el valor del tablero (elemento), el segundo parametro es el indice del tablero, el tercer parametro es el array completo del tablero
 
-          // IGUAL QUE, square es la primera pos lo que hay en ese square
-          // board.map((square,index) => {
-          //   return (<div key={index} className="cell">
-          //     {/* //Para renderizar lista de elementos, necesitamos una key (indentificador unico) para cada elemento, 
-          //     en este caso el index del tablero es un buen identificador unico, ya que cada casilla del tablero tiene 
-          //     un indice unico */}
-          //     <Square key={index}
-          //       index={index} /*7. vamos a pasarle una funcion al componente,
-          //        pasamos la funcion no la ejecucion, para ejecutarlo cuando queramos  */ updateBoard={updateBoard}>
-          //       {square}
-          //     </Square>        
-          //   </div>
-          
-        }
+        //3. Renderizamos cada casilla del tablero, para eso usamos el componente Square, le pasamos el index del tablero como prop, y el valor de la casilla como children, que es lo que va a tener dentro del cuadradito (x o o)
+        //Lista elementos se renderiza .map, porque devuelve un array de elementos, en este caso cada casilla del tablero,
+        //  el index es el indice del tablero, que se utiliza para saber en que posicion del tablero se encuentra 
+        // la ficha del jugador, y el valor del tablero es el valor de la casilla (x o o), pero como no me interesa
+        //  el valor del tablero, puedo usar un guion bajo para indicar que no me interesa ese valor
+        // board.map((_,index) => {
+        //   return (<div key={index} className="cell">
+        //     {/* //Para renderizar lista de elementos, necesitamos una key (indentificador unico) para cada elemento, 
+        //     en este caso el index del tablero es un buen identificador unico, ya que cada casilla del tablero tiene 
+        //     un indice unico */}
+        //     <Square key={index}
+        //       index={index} /*7. vamos a pasarle una funcion al componente,
+        //        pasamos la funcion no la ejecucion, para ejecutarlo cuando queramos  */ updateBoard={updateBoard}>
+        //       {board[index]}
+        //     </Square>        
+        //   </div>
+        // )
+        // })
+
+        // IGUAL QUE, square es la primera pos lo que hay en ese square
+        // board.map((square,index) => {
+        //   return (<div key={index} className="cell">
+        //     {/* //Para renderizar lista de elementos, necesitamos una key (indentificador unico) para cada elemento, 
+        //     en este caso el index del tablero es un buen identificador unico, ya que cada casilla del tablero tiene 
+        //     un indice unico */}
+        //     <Square key={index}
+        //       index={index} /*7. vamos a pasarle una funcion al componente,
+        //        pasamos la funcion no la ejecucion, para ejecutarlo cuando queramos  */ updateBoard={updateBoard}>
+        //       {square}
+        //     </Square>        
+        //   </div>
+
+      }
 
       {/* </section> */}
-        <Board board={board} updateBoard={updateBoard}/>
+      <Board board={board} updateBoard={updateBoard} />
 
       {/* //6.Ahora queremos mostrar el turno del jugador, para eso vamos a crear un componente
        que muestre el turno del jugador, y lo vamos a renderizar debajo del tablero */}
@@ -197,31 +196,31 @@ function App() {
           {TURNS.O}
         </Square>
       </section> */}
-      <TurnIndicator turn={turn}/>
+      <TurnIndicator turn={turn} />
 
-        {/* //Esto podria estar en un componente aparte, pero por ahora lo dejamos aqui */}
-        {/*Renderizado condicional*/
-          // winner !== null &&(
-          //   <section className="winner">
-          //     <div className="text">
-          //       <h2>
-          //         {winner === false ? 'Empate' : 'Ganó: '}
-          //       </h2>
-          //       <header className="win">
-          //         {winner && <Square>{winner}</Square>}
-          //       </header>
-          //       <button onClick={resetGame}>
-          //         Empezar de nuevo
-          //       </button>
-          //     </div>
-          //   </section>
-          // )
-        }
+      {/* //Esto podria estar en un componente aparte, pero por ahora lo dejamos aqui */}
+      {/*Renderizado condicional*/
+        // winner !== null &&(
+        //   <section className="winner">
+        //     <div className="text">
+        //       <h2>
+        //         {winner === false ? 'Empate' : 'Ganó: '}
+        //       </h2>
+        //       <header className="win">
+        //         {winner && <Square>{winner}</Square>}
+        //       </header>
+        //       <button onClick={resetGame}>
+        //         Empezar de nuevo
+        //       </button>
+        //     </div>
+        //   </section>
+        // )
+      }
 
-       <WinnerModal winner={winner} resetGame={resetGame}/>
+      <WinnerModal winner={winner} resetGame={resetGame} />
 
     </main>
-   
+
   )
 }
 
