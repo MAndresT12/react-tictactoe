@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import confetti from 'canvas-confetti'
 import './App.css'
 import { TURNS } from './constants.js'
@@ -10,12 +10,6 @@ import { useGame } from './hooks/useGame.js'
 function App() {
 
   const {board, turn, winner, updateBoard, resetGame} = useGame()
-  //useState que al cambiar vuelve a renderizar componente para reflejar los cambios
-  //useEffect hook que permite ejecutar codigo arbitrario cuando componente se monta en el dom, y cada vez que cambian las dependencias que nosotros le digamos 
-  // useEffect(() => {
-  //   console.log('El ganador es: ', winner)
-  // }, [winner]) //dependencia, cada vez que board cambie, se ejecutara el codigo dentro del useEffect
-  //ejemplo tenemos un winner y queremos enviar a bdd o a una api, cada vez que winner cambie, se ejecutara el codigo dentro del useEffect, y podemos enviar el ganador a la bdd o a la api
 
   return (
     //1. Renderizamos el tablero
